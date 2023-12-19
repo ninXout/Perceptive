@@ -1,7 +1,7 @@
 <script lang="ts">
     // import * as wasm from "../wasm-lib/pkg/wasm_lib";
     // alert(wasm.test(5));
-
+    
     import Menu from "./Menu.svelte";
 
     enum Page {
@@ -28,18 +28,6 @@
             <h2>My Packs</h2>
             <div data-category="packs">
                 <div style="display: flex; min-height: 160px; width: 100%;">
-                    <loading></loading>
-                    <button>
-                        <div
-                            style="'backdrop-filter: none; background: #29465B'" 
-                        >
-                            <span>
-                                <h4>Create New Pack</h4>
-                                <p></p>
-                            </span>
-                        </div>
-                    </button>
-
                     <button>
                         <div style="'backdrop-filter: none; background: #0009'">
                             <span>

@@ -110,6 +110,7 @@ h1 {
     width: 100%;
     height: 70px;
     padding: 10px;
+    background-color: rgba(0,0,0,0.4);
     color: #fff;
     -webkit-backdrop-filter: blur(7px);
     backdrop-filter: blur(7px);
@@ -197,6 +198,11 @@ button:hover {
 button:active {
     border-color: #396cd8;
     background-color: #e8e8e8;
+}
+
+button.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 input,

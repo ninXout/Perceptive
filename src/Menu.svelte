@@ -4,6 +4,8 @@
     import { invoke } from "@tauri-apps/api/tauri";
 
     let myModal: HTMLDivElement;
+    let modalConfirm: HTMLButtonElement;
+    let selectedFolder: boolean = false;
 
     const fileThing = async () => {
         const path = await open({
@@ -12,8 +14,20 @@
         });
         if (typeof path == "string") {
             invoke("read_resources_folder", { path });
+            selectedFolder = true;
         }
     };
+
+    const finishSetup = async () => {
+        if (selectedFolder === true) {
+            myModal.style.display = "none"
+            modalConfirm.classList.remove("disabled")
+        }
+    }
+
+    onMount(async () => {
+        myModal.style.display = "block";
+	});
 </script>
 
 <div class="modal" bind:this={myModal}>
@@ -27,8 +41,9 @@
         </p>
         <button on:click={fileThing}>Select Folder</button>
         <button
-            id="modalConfirm"
-            on:click={() => (myModal.style.display = "none")}>Done</button
+            bind:this={modalConfirm}
+            class={selectedFolder ? "" : "disabled"}
+            on:click={finishSetup}>Done</button
         >
     </div>
 </div>
