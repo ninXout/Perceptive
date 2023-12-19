@@ -44,8 +44,8 @@
             {
                 "fullscreen": false,
                 "resizable": true,
-                "title": "perceptive",
-                "width": 800,
+                "title": "Perceptive",
+                "width": 1000,
                 "height": 600
             }
         ]

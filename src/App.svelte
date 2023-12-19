@@ -12,19 +12,6 @@
     let page = Page.HOME;
 
     let bodyContents;
-
-    // we will move this function to its own thing later
-
-    // async function setPage(pageName) {
-    //     switch (pageName) {
-    //         case "Home":
-    //             bodyContents.innerHTML = `<Menu></Menu>`;
-    //             break;
-    //         case "My Packs":
-    //             bodyContents.innerHTML = ``;
-    //             break;
-    //     }
-    // }
 </script>
 
 <div class="sidenav">
@@ -42,9 +29,9 @@
             <div data-category="packs">
                 <div style="display: flex; min-height: 160px; width: 100%;">
                     <loading></loading>
-                    <button id="create">
+                    <button>
                         <div
-                            style="'backdrop-filter: none; background: #29465B'"
+                            style="'backdrop-filter: none; background: #29465B'" 
                         >
                             <span>
                                 <h4>Create New Pack</h4>
