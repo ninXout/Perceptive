@@ -20,7 +20,16 @@ struct AppState {
 }
 
 fn split_image(img: &DynamicImage, plist: &plist::Value) -> AHashMap<String, image::DynamicImage> {
-    todo!()
+    // let Some(frames) = v
+    //     .as_dictionary()
+    //     .and_then(|v| v.get("frames"))
+    //     .and_then(|v| v.as_dictionary())
+    // else {
+    //     continue;
+    // };
+
+    // TODO
+    AHashMap::new()
 }
 
 #[tauri::command]
@@ -54,31 +63,19 @@ fn read_resources_folder(state: tauri::State<Mutex<AppState>>, path: &str) -> Op
 
     // state.
 
-    state.loaded_project = Some(Project {
+    state.lock().unwrap().loaded_project = Some(Project {
         textures: pngs
             .into_iter()
             .map(|(name, img)| {
-                (
-                    name,
-                    if let Some(v) = plists.get(&name) {
-                        Texture::Spritesheet(split_image(&img, v))
-                    } else {
-                        Texture::Simple(img)
-                    },
-                )
+                let tex = if let Some(v) = plists.get(&name) {
+                    Texture::Spritesheet(split_image(&img, v))
+                } else {
+                    Texture::Simple(img)
+                };
+                (name, tex)
             })
             .collect(),
     });
-    // println!("{} {}", pngs.len(), plists.len());
-    // for (s, v) in plists.iter().take(1) {
-    //     let Some(frames) = v
-    //         .as_dictionary()
-    //         .and_then(|v| v.get("frames"))
-    //         .and_then(|v| v.as_dictionary())
-    //     else {
-    //         continue;
-    //     };
-    // }
     Some(())
 }
 
