@@ -1,39 +1,68 @@
 <script lang="ts">
-  import Greet from './lib/Greet.svelte'
+    // import * as wasm from "../wasm-lib/pkg/wasm_lib";
+    // alert(wasm.test(5));
+
+    import Menu from "./Menu.svelte";
+
+    enum Page {
+        HOME,
+        MY_PACKS,
+    }
+
+    let page = Page.HOME;
+
+    let bodyContents;
+
+    // we will move this function to its own thing later
+
+    // async function setPage(pageName) {
+    //     switch (pageName) {
+    //         case "Home":
+    //             bodyContents.innerHTML = `<Menu></Menu>`;
+    //             break;
+    //         case "My Packs":
+    //             bodyContents.innerHTML = ``;
+    //             break;
+    //     }
+    // }
 </script>
 
-<main class="container">
-  <h1>Welcome to Tauri!</h1>
+<div class="sidenav">
+    <a on:click={() => (page = Page.HOME)}>Home</a>
+    <a on:click={() => (page = Page.MY_PACKS)}>My Projects</a>
+</div>
 
-  <div class="row">
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo vite" alt="Vite Logo" />
-    </a>
-    <a href="https://tauri.app" target="_blank">
-      <img src="/tauri.svg" class="logo tauri" alt="Tauri Logo" />
-    </a>
-    <a href="https://svelte.dev" target="_blank">
-      <img src="/svelte.svg" class="logo svelte" alt="Svelte Logo" />
-    </a>
-  </div>
+<body bind:this={bodyContents}>
+    <h1>Perceptive Texture Pack Editor</h1>
+    {#if page == Page.HOME}
+        <Menu></Menu>
+    {:else if page == Page.MY_PACKS}
+        <div id="selection">
+            <h2>My Packs</h2>
+            <div data-category="packs">
+                <div style="display: flex; min-height: 160px; width: 100%;">
+                    <loading></loading>
+                    <button id="create">
+                        <div
+                            style="'backdrop-filter: none; background: #29465B'"
+                        >
+                            <span>
+                                <h4>Create New Pack</h4>
+                                <p></p>
+                            </span>
+                        </div>
+                    </button>
 
-  <p>
-    Click on the Tauri, Vite, and Svelte logos to learn more.
-  </p>
-
-  <div class="row">
-    <Greet />
-  </div>
-
-
-</main>
-
-<style>
-  .logo.vite:hover {
-    filter: drop-shadow(0 0 2em #747bff);
-  }
-
-  .logo.svelte:hover {
-    filter: drop-shadow(0 0 2em #ff3e00);
-  }
-</style>
+                    <button>
+                        <div style="'backdrop-filter: none; background: #0009'">
+                            <span>
+                                <h4>uhhh this one texture pack you have</h4>
+                                <p></p>
+                            </span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    {/if}
+</body>
