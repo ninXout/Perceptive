@@ -4,7 +4,8 @@
 use std::sync::Mutex;
 
 use ahash::AHashMap;
-use image::{codecs::png::PngDecoder, DynamicImage, ImageFormat};
+use image::{codecs::png::PngDecoder, DynamicImage, EncodableLayout, ImageFormat};
+use itertools::Itertools;
 
 enum Texture {
     Simple(image::DynamicImage),
@@ -33,7 +34,10 @@ fn split_image(img: &DynamicImage, plist: &plist::Value) -> AHashMap<String, ima
 }
 
 #[tauri::command]
-fn read_resources_folder(state: tauri::State<Mutex<AppState>>, path: &str) -> Option<()> {
+fn read_resources_folder(
+    // state: tauri::State<Mutex<AppState>>,
+    path: &str,
+) -> Option<String> {
     let mut pngs = AHashMap::new();
     let mut plists = AHashMap::new();
 
@@ -52,7 +56,7 @@ fn read_resources_folder(state: tauri::State<Mutex<AppState>>, path: &str) -> Op
             let mut reader = image::io::Reader::open(&path).ok()?;
             reader.set_format(ImageFormat::Png);
             let img = reader.decode().ok()?;
-            pngs.insert(name.to_string(), img);
+            pngs.insert(name.to_string(), img.to_rgba8());
         } else if ext == "plist" {
             let p = plist::Value::from_file(&path).ok()?;
             plists.insert(name.to_string(), p);
@@ -61,22 +65,25 @@ fn read_resources_folder(state: tauri::State<Mutex<AppState>>, path: &str) -> Op
         // println!("{:?}", file.file_name().to_str())
     }
 
+    let h = pngs.values().next().unwrap();
+    Some(h.as_bytes().iter().map(|s| s.to_string()).join(","))
+
     // state.
 
-    state.lock().unwrap().loaded_project = Some(Project {
-        textures: pngs
-            .into_iter()
-            .map(|(name, img)| {
-                let tex = if let Some(v) = plists.get(&name) {
-                    Texture::Spritesheet(split_image(&img, v))
-                } else {
-                    Texture::Simple(img)
-                };
-                (name, tex)
-            })
-            .collect(),
-    });
-    Some(())
+    // state.lock().unwrap().loaded_project = Some(Project {
+    //     textures: pngs
+    //         .into_iter()
+    //         .map(|(name, img)| {
+    //             let tex = if let Some(v) = plists.get(&name) {
+    //                 Texture::Spritesheet(split_image(&img, v))
+    //             } else {
+    //                 Texture::Simple(img)
+    //             };
+    //             (name, tex)
+    //         })
+    //         .collect(),
+    // });
+    // Some(())
 }
 
 fn main() {

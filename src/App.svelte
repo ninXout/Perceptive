@@ -1,7 +1,7 @@
 <script lang="ts">
     // import * as wasm from "../wasm-lib/pkg/wasm_lib";
     // alert(wasm.test(5));
-    
+
     import Menu from "./Menu.svelte";
 
     enum Page {
@@ -26,6 +26,7 @@
     {:else if page == Page.MY_PACKS}
         <div id="selection">
             <h2>My Packs</h2>
+            <button>Create New Pack</button>
             <div data-category="packs">
                 <div style="display: flex; min-height: 160px; width: 100%;">
                     <button>

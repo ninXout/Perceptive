@@ -5,7 +5,7 @@
 
     let myModal: HTMLDivElement;
     let modalConfirm: HTMLButtonElement;
-    let selectedFolder: boolean = false;
+    let selectedFolder: boolean = true; // change to false before pushing
 
     const fileThing = async () => {
         const path = await open({
@@ -13,21 +13,27 @@
             directory: true,
         });
         if (typeof path == "string") {
-            invoke("read_resources_folder", { path });
+            let agagag: string = await invoke("read_resources_folder", {
+                path,
+            });
+            let guh = new Uint8ClampedArray(
+                agagag.split(",").map(v => parseInt(v))
+            );
+            console.log(guh.length);
             selectedFolder = true;
         }
     };
 
     const finishSetup = async () => {
         if (selectedFolder === true) {
-            myModal.style.display = "none"
-            modalConfirm.classList.remove("disabled")
+            myModal.style.display = "none";
+            modalConfirm.classList.remove("disabled");
         }
-    }
+    };
 
     onMount(async () => {
         myModal.style.display = "block";
-	});
+    });
 </script>
 
 <div class="modal" bind:this={myModal}>
